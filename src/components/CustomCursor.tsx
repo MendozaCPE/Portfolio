@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import { useState, useEffect } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 
 export function CustomCursor() {
   const [isPointer, setIsPointer] = useState(false);
@@ -19,25 +19,25 @@ export function CustomCursor() {
 
       const target = e.target as HTMLElement;
       setIsPointer(
-        window.getComputedStyle(target).cursor === 'pointer' ||
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') !== null ||
-        target.closest('button') !== null
+        window.getComputedStyle(target).cursor === "pointer" ||
+          target.tagName === "A" ||
+          target.tagName === "BUTTON" ||
+          target.closest("a") !== null ||
+          target.closest("button") !== null
       );
     };
 
     const handleMouseEnter = () => setIsHidden(false);
     const handleMouseLeave = () => setIsHidden(true);
 
-    window.addEventListener('mousemove', moveCursor);
-    document.body.addEventListener('mouseenter', handleMouseEnter);
-    document.body.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener("mousemove", moveCursor);
+    document.body.addEventListener("mouseenter", handleMouseEnter);
+    document.body.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      document.body.removeEventListener('mouseenter', handleMouseEnter);
-      document.body.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener("mousemove", moveCursor);
+      document.body.removeEventListener("mouseenter", handleMouseEnter);
+      document.body.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [cursorX, cursorY]);
 
@@ -49,8 +49,8 @@ export function CustomCursor() {
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%',
+          translateX: "-50%",
+          translateY: "-50%",
         }}
         animate={{
           scale: isHidden ? 0 : 1,
@@ -64,8 +64,8 @@ export function CustomCursor() {
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%',
+          translateX: "-50%",
+          translateY: "-50%",
         }}
         animate={{
           scale: isHidden ? 0 : isPointer ? 1.5 : 1,
@@ -80,8 +80,8 @@ export function CustomCursor() {
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%',
+          translateX: "-50%",
+          translateY: "-50%",
         }}
         animate={{
           scale: isHidden ? 0 : isPointer ? 2 : 1,

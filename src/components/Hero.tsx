@@ -12,23 +12,27 @@ import {
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { TypingAnimation } from "./TypingAnimation";
 import profilePicture from "./uploads/profilePicture.png";
+import { useState } from "react";
+import { Github } from "lucide-react";
 
 export function Hero() {
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+
   const skills = ["React", "TypeScript", "Node.js", "Python", "UI/UX", "Cloud"];
 
   const floatingIcons = [
-    { Icon: Code2, position: { top: "10%", right: "15%" }, delay: 0 },
-    { Icon: Database, position: { top: "30%", right: "5%" }, delay: 0.2 },
-    { Icon: Palette, position: { top: "60%", right: "10%" }, delay: 0.4 },
-    { Icon: Cpu, position: { bottom: "25%", right: "20%" }, delay: 0.6 },
-    { Icon: Globe, position: { top: "20%", right: "35%" }, delay: 0.8 },
-    { Icon: Terminal, position: { bottom: "15%", right: "30%" }, delay: 1.0 },
+    { Icon: Github, position: { top: "10%", right: "60%" }, delay: 0 },
+    { Icon: Database, position: { top: "30%", right: "82%" }, delay: 0.2 },
+    { Icon: Cpu, position: { top: "55%", right: "18%" }, delay: 0.4 },
+    { Icon: Code2, position: { top: "65%", right: "55%" }, delay: 0.6 },
+    { Icon: Palette, position: { top: "22%", right: "25%" }, delay: 0.8 },
+    { Icon: Terminal, position: { bottom: "18%", right: "30%" }, delay: 1.0 },
   ];
 
   return (
     <section
       id="home"
-      className="min-h-screen relative flex items-center justify-center overflow-hidden px-6 pt-20 pb-32"
+      className="min-h-screen relative flex justify-center overflow-hidden px-6 pt-20 pb-32"
     >
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
@@ -375,7 +379,8 @@ export function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.5 }}
-        className="absolute bottom- left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        style={{ bottom: "10px" }}
       >
         <motion.span
           className="text-white/50 tracking-widest text-sm"
