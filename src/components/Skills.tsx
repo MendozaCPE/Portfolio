@@ -1,227 +1,211 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { motion } from 'motion/react';
 import { Laptop, Server, Wrench, Sparkles } from 'lucide-react';
 
 export function Skills() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
+    const skillCategories = [
+        {
+            category: 'Frontend',
+            icon: Laptop,
+            color: 'from-blue-500 via-blue-600 to-cyan-500',
+            skills: [
+                { name: 'React', level: 90 },
+                { name: 'TypeScript', level: 85 },
+                { name: 'Tailwind CSS', level: 95 },
+                { name: 'Next.js', level: 80 },
+            ],
+        },
+        {
+            category: 'Backend',
+            icon: Server,
+            color: 'from-emerald-500 via-emerald-600 to-teal-500',
+            skills: [
+                { name: 'Node.js', level: 85 },
+                { name: 'Python', level: 80 },
+                { name: 'PostgreSQL', level: 75 },
+                { name: 'REST APIs', level: 90 },
+            ],
+        },
+        {
+            category: 'Tools & Other',
+            icon: Wrench,
+            color: 'from-violet-500 via-violet-600 to-purple-500',
+            skills: [
+                { name: 'Git', level: 90 },
+                { name: 'Docker', level: 70 },
+                { name: 'Figma', level: 85 },
+                { name: 'AWS', level: 65 },
+            ],
+        },
+    ];
 
-  const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
+    return (
+        <section id="skills" className="min-h-screen py-20 px-4 relative bg-black overflow-hidden">
+            {/* Subtle background effects */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/10 to-black"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(120,120,120,0.1)_0%,transparent_70%)]"></div>
 
-  const skillCategories = [
-    {
-      category: 'Frontend',
-      icon: Laptop,
-      color: 'from-blue-500/20 to-cyan-500/20',
-      skills: [
-        { name: 'React', level: 90 },
-        { name: 'TypeScript', level: 85 },
-        { name: 'Tailwind CSS', level: 95 },
-        { name: 'Next.js', level: 80 },
-      ],
-    },
-    {
-      category: 'Backend',
-      icon: Server,
-      color: 'from-green-500/20 to-emerald-500/20',
-      skills: [
-        { name: 'Node.js', level: 85 },
-        { name: 'Python', level: 80 },
-        { name: 'PostgreSQL', level: 75 },
-        { name: 'REST APIs', level: 90 },
-      ],
-    },
-    {
-      category: 'Tools & Other',
-      icon: Wrench,
-      color: 'from-purple-500/20 to-pink-500/20',
-      skills: [
-        { name: 'Git', level: 90 },
-        { name: 'Docker', level: 70 },
-        { name: 'Figma', level: 85 },
-        { name: 'AWS', level: 65 },
-      ],
-    },
-  ];
-
-  return (
-    <section id="skills" ref={ref} className="min-h-screen py-32 px-6 relative overflow-hidden">
-      {/* Enhanced background elements */}
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-white/5 blur-[150px] rounded-full"></div>
-      <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-white/5 blur-[130px] rounded-full"></div>
-
-      {/* Grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:80px_80px] opacity-50"></div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-20 text-center"
-        >
-          <h2 className="text-5xl md:text-7xl mb-6">Technical Skills</h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '100px' }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-1 bg-gradient-to-r from-white to-white/20 mx-auto"
-          ></motion.div>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.category}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
-              style={{ y: categoryIndex === 1 ? y : undefined }}
-              className="relative group"
-            >
-              <motion.div
-                whileHover={{ 
-                  scale: 1.03, 
-                  rotateY: 5,
-                  boxShadow: '0 30px 60px rgba(255,255,255,0.15)'
-                }}
-                transition={{ duration: 0.3 }}
-                className="border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-3xl p-8 h-full relative overflow-hidden"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-                
-                {/* Icon header */}
-                <div className="relative z-10 mb-8">
-                  <motion.div
-                    whileHover={{ rotate: 360, scale: 1.1 }}
+            <div className="max-w-6xl mx-auto relative z-10">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6 }}
-                    className="inline-flex p-4 border border-white/20 bg-white/5 rounded-xl mb-4"
-                  >
-                    <category.icon size={32} />
-                  </motion.div>
-                  <h3 className="text-2xl">{category.category}</h3>
-                </div>
+                    className="mb-16 text-center"
+                >
+                    <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-tight">
+                        Technical Skills
+                    </h2>
+                    <p className="text-gray-400 text-lg font-light">
+                        Expertise across the stack
+                    </p>
+                </motion.div>
 
-                {/* Skills list */}
-                <div className="space-y-6 relative z-10">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between mb-3">
-                        <span className="text-white/90">{skill.name}</span>
-                        <motion.span 
-                          initial={{ opacity: 0 }}
-                          whileInView={{ opacity: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: categoryIndex * 0.2 + skillIndex * 0.1 + 0.5 }}
-                          className="text-white/60"
-                        >
-                          {skill.level}%
-                        </motion.span>
-                      </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                {/* Skill Cards */}
+                <div className="grid md:grid-cols-3 gap-6 mb-16">
+                    {skillCategories.map((category, categoryIndex) => (
                         <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          viewport={{ once: true }}
-                          transition={{ 
-                            duration: 1.2, 
-                            delay: categoryIndex * 0.2 + skillIndex * 0.1,
-                            ease: 'easeOut'
-                          }}
-                          className="h-full bg-gradient-to-r from-white to-white/70 relative rounded-full"
+                            key={category.category}
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+                            className="relative"
                         >
-                          <motion.div
-                            animate={{
-                              x: ['-100%', '200%'],
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: 'linear',
-                              delay: categoryIndex * 0.5,
-                            }}
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"
-                            style={{ width: '50%' }}
-                          ></motion.div>
+                            <motion.div
+                                whileHover={{
+                                    y: -8,
+                                    transition: { duration: 0.2 }
+                                }}
+                                className="relative h-full border border-white/5 bg-gradient-to-b from-white/[0.02] to-white/[0.01] backdrop-blur-sm rounded-2xl p-6 overflow-hidden group"
+                            >
+                                {/* Animated border gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+
+                                {/* Category header */}
+                                <div className="relative z-10 mb-8">
+                                    <motion.div
+                                        whileHover={{ rotate: 180, scale: 1.1 }}
+                                        transition={{ duration: 0.4 }}
+                                        className="inline-flex mb-4"
+                                    >
+                                        <div className={`p-3 rounded-xl bg-gradient-to-br ${category.color} bg-opacity-10`}>
+                                            <category.icon size={24} className="text-white/90" />
+                                        </div>
+                                    </motion.div>
+                                    <h3 className="text-xl font-medium mb-2">{category.category}</h3>
+                                    <div className="h-px w-12 bg-gradient-to-r from-white/40 to-transparent"></div>
+                                </div>
+
+                                {/* Skills with progress bars */}
+                                <div className="space-y-5 relative z-10">
+                                    {category.skills.map((skill, skillIndex) => (
+                                        <div key={skill.name}>
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-sm font-light text-gray-300">{skill.name}</span>
+                                                <motion.span
+                                                    initial={{ opacity: 0 }}
+                                                    whileInView={{ opacity: 1 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: skillIndex * 0.1 + 0.3 }}
+                                                    className="text-xs text-gray-400 font-mono"
+                                                >
+                                                    {skill.level}%
+                                                </motion.span>
+                                            </div>
+                                            <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    whileInView={{ width: `${skill.level}%` }}
+                                                    viewport={{ once: true }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        delay: skillIndex * 0.1 + 0.2,
+                                                        ease: "easeOut"
+                                                    }}
+                                                    className={`h-full bg-gradient-to-r ${category.color} relative`}
+                                                >
+                                                    {/* Shimmer effect */}
+                                                    <motion.div
+                                                        animate={{ x: ['0%', '100%'] }}
+                                                        transition={{
+                                                            duration: 2,
+                                                            repeat: Infinity,
+                                                            ease: "linear",
+                                                            delay: skillIndex * 0.2
+                                                        }}
+                                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                                    />
+                                                </motion.div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
                         </motion.div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
 
-        {/* Additional Skills Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-3xl p-10 md:p-12 relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.8 }}
-                className="p-6 border border-white/20 bg-white/5 rounded-2xl"
-              >
-                <Sparkles size={48} />
-              </motion.div>
-              
-              <div className="flex-1 text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl mb-4">Always Learning</h3>
-                <p className="text-white/60">
-                  Constantly exploring new technologies and frameworks. Currently diving deep into 
-                  AI/ML, Web3, and advanced cloud architectures to stay ahead of the curve.
-                </p>
-              </div>
+                {/* Learning Section */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5 }}
+                    className="relative"
+                >
+                    <div className="border border-white/10 bg-gradient-to-br from-white/[0.02] to-transparent backdrop-blur-sm rounded-2xl p-8 overflow-hidden">
+                        {/* Subtle gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
+                            <motion.div
+                                animate={{ rotate: [0, 360] }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                className="p-4 rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10"
+                            >
+                                <Sparkles size={28} className="text-white/80" />
+                            </motion.div>
+
+                            <div className="flex-1 text-center md:text-left">
+                                <h3 className="text-xl font-medium mb-3">Continuous Learning</h3>
+                                <p className="text-gray-400 text-sm font-light leading-relaxed">
+                                    Exploring AI/ML, Web3, and cloud-native architectures.
+                                    Committed to staying current with emerging technologies and best practices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
-          </motion.div>
-        </motion.div>
-      </div>
 
-      {/* Floating 3D elements */}
-      <motion.div
-        animate={{
-          rotateZ: [0, 360],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        className="absolute -bottom-20 -left-20 w-40 h-40 border border-white/5"
-        style={{ transform: 'rotateX(60deg) rotateY(60deg)' }}
-      ></motion.div>
+            {/* Floating geometric elements */}
+            <motion.div
+                animate={{
+                    rotateY: [0, 360],
+                    rotateX: [0, 180]
+                }}
+                transition={{
+                    duration: 40,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+                className="absolute top-1/4 -left-10 w-20 h-20 border border-white/5 rounded-lg"
+                style={{ transformStyle: 'preserve-3d' }}
+            />
 
-      <motion.div
-        animate={{
-          rotateX: [0, 360],
-          rotateZ: [0, -360],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        className="absolute top-1/3 right-10 w-24 h-24 border border-white/5 rounded-full"
-      ></motion.div>
-    </section>
-  );
+            <motion.div
+                animate={{
+                    rotateZ: [0, 360],
+                    scale: [1, 1.1, 1]
+                }}
+                transition={{
+                    duration: 30,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+                className="absolute bottom-1/4 -right-8 w-16 h-16 border border-white/5 rounded-full"
+            />
+        </section>
+    );
 }
