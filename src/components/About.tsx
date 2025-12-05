@@ -345,10 +345,6 @@ export function About() {
                   Clean code, thoughtful design, and attention to detail
                   define my approach to development.
                 </p>
-                <p className="text-white/60 text-base md:text-lg leading-relaxed">
-                  Currently exploring the boundaries of web technology,
-                  turning complex problems into <span className="text-white/80 italic">elegant solutions</span>.
-                </p>
               </div>
             </motion.div>
 
