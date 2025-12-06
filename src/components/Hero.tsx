@@ -107,7 +107,7 @@ export function Hero() {
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="order-2 lg:order-1"
+          className="order-1 lg:order-1"
         >
           <motion.div
             whileHover={{ scale: 1.02, rotateY: 2, z: 50 }}
@@ -246,7 +246,7 @@ export function Hero() {
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="order-1 lg:order-2 relative"
+          className="order-2 lg:order-2 relative"
         >
           <div className="relative max-w-md mx-auto">
             {/* Main portrait container */}
@@ -260,7 +260,7 @@ export function Hero() {
                 <ImageWithFallback
                   src={profilePicture} // ✅ imported image
                   alt="Professional Portrait"
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
