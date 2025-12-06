@@ -32,7 +32,8 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen relative flex justify-center overflow-hidden px-6 pt-20 pb-32"
+      className="min-h-screen relative flex justify-center overflow-hidden px-6 lg:pt-20 pb-32"
+      style={{ paddingTop: window.innerWidth < 1024 ? '40px' : undefined }}
     >
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
@@ -101,7 +102,7 @@ export function Hero() {
         ></motion.div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 mt-8 lg:mt-0">
         {/* Left side - Info Card */}
         <motion.div
           initial={{ opacity: 0, x: -100 }}

@@ -149,17 +149,8 @@ export function Skills() {
                                     <div className="space-y-5 relative z-10">
                                         {category.skills.map((skill, skillIndex) => (
                                             <div key={skill.name}>
-                                                <div className="flex justify-between items-center mb-2">
+                                                <div className="mb-2">
                                                     <span className="text-sm font-light text-gray-300">{skill.name}</span>
-                                                    <motion.span
-                                                        initial={{ opacity: 0 }}
-                                                        whileInView={{ opacity: 1 }}
-                                                        viewport={{ once: true }}
-                                                        transition={{ delay: skillIndex * 0.1 + 0.3 }}
-                                                        className="text-xs text-gray-400 font-mono"
-                                                    >
-                                                        {skill.level}%
-                                                    </motion.span>
                                                 </div>
                                                 <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                                                     <motion.div
