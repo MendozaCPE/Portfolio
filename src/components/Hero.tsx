@@ -383,17 +383,17 @@ export function Hero() {
         className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
         style={{ bottom: "10px" }}
       >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-px h-12 bg-gradient-to-b from-transparent to-white/50"
+        ></motion.div>
         <motion.span
           className="text-white/50 tracking-widest text-sm"
           whileHover={{ color: "rgba(255,255,255,0.8)" }}
         >
           EXPLORE WORK
         </motion.span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent"
-        ></motion.div>
       </motion.div>
     </section>
   );

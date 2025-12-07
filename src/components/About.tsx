@@ -223,18 +223,33 @@ export function About() {
               style={{ width: '100%', height: '100%' }}
             />
 
-            {/* Glowing orb behind robot */}
+            {/* Enhanced glowing orb behind robot */}
             <motion.div
               animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
+                opacity: [0.5, 0.8, 0.5],
               }}
               transition={{
                 duration: 4,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl -z-10"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/30 rounded-full blur-3xl -z-10"
+            />
+
+            {/* Additional spotlight effect */}
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0.4, 0.6, 0.4],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+              className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 bg-white/10 rounded-full blur-2xl -z-10"
             />
 
             {/* Decorative elements around robot */}
@@ -264,7 +279,7 @@ export function About() {
             <motion.div
               animate={{
                 scale: [1, 1.3, 1],
-                opacity: [0.3, 0.6, 0.3],
+                opacity: [0.5, 0.9, 0.5],
               }}
               transition={{
                 duration: 2.5,
@@ -272,7 +287,7 @@ export function About() {
                 ease: "easeInOut",
                 delay: 0.5
               }}
-              className="absolute top-1/3 -left-8 w-3 h-3 bg-white/30 rounded-full"
+              className="absolute top-1/3 -left-8 w-3 h-3 bg-white/50 rounded-full"
             />
           </motion.div>
 

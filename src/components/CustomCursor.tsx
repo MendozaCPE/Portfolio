@@ -8,7 +8,7 @@ export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 700 };
+  const springConfig = { damping: 35, stiffness: 400 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
@@ -20,10 +20,10 @@ export function CustomCursor() {
       const target = e.target as HTMLElement;
       setIsPointer(
         window.getComputedStyle(target).cursor === "pointer" ||
-          target.tagName === "A" ||
-          target.tagName === "BUTTON" ||
-          target.closest("a") !== null ||
-          target.closest("button") !== null
+        target.tagName === "A" ||
+        target.tagName === "BUTTON" ||
+        target.closest("a") !== null ||
+        target.closest("button") !== null
       );
     };
 

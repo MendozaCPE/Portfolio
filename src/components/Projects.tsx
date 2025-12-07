@@ -1,11 +1,30 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { useRef, useState, useEffect } from 'react';
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { motion, PanInfo } from 'motion/react';
+import { useState } from 'react';
+import { ExternalLink, Github } from 'lucide-react';
+
+function ImageWithFallback({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const [error, setError] = useState(false);
+
+  if (error) {
+    return (
+      <div className={`${className} bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center`}>
+        <div className="text-white/40 text-sm">Image not available</div>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      onError={() => setError(true)}
+    />
+  );
+}
 
 export function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
 
   const projects = [
     {
@@ -13,231 +32,247 @@ export function Projects() {
       description: 'Full-stack online store with payment integration, inventory management, and admin dashboard built with modern technologies.',
       tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
       image: 'https://images.unsplash.com/photo-1661956602116-aa6865609028?w=1200&q=80',
+      github: 'https://github.com/yourusername/ecommerce-platform',
+      demo: 'https://demo-ecommerce.vercel.app',
     },
     {
       title: 'Task Management App',
       description: 'Collaborative project management tool with real-time updates, team workflows, and advanced analytics.',
       tags: ['Next.js', 'TypeScript', 'Prisma', 'WebSocket'],
       image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+      github: 'https://github.com/yourusername/task-manager',
+      demo: 'https://demo-taskmanager.vercel.app',
     },
     {
       title: 'Weather Dashboard',
       description: 'Real-time weather tracking application with interactive maps, detailed forecasts, and location services.',
       tags: ['React', 'API Integration', 'Charts', 'Geolocation'],
       image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=1200&q=80',
+      github: 'https://github.com/yourusername/weather-dashboard',
+      demo: 'https://demo-weather.vercel.app',
     },
     {
       title: 'Social Media Analytics',
       description: 'Platform for analyzing social media metrics with advanced data visualization and AI-powered insights.',
       tags: ['Python', 'React', 'D3.js', 'Machine Learning'],
       image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
+      github: 'https://github.com/yourusername/social-analytics',
+      demo: 'https://demo-analytics.vercel.app',
     },
     {
       title: 'Portfolio CMS',
       description: 'Content management system designed for creative professionals to showcase and manage their work effectively.',
       tags: ['Next.js', 'Sanity', 'Tailwind', 'Vercel'],
       image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&q=80',
+      github: 'https://github.com/yourusername/portfolio-cms',
+      demo: 'https://demo-cms.vercel.app',
     },
   ];
 
-  // Auto-advance carousel
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrentIndex((prev) => (prev + 1) % projects.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [projects.length]);
-
-  const navigateCarousel = (newDirection: number) => {
-    setDirection(newDirection);
-    if (newDirection > 0) {
+  const navigateCarousel = (direction: number) => {
+    if (direction > 0) {
       setCurrentIndex((prev) => (prev + 1) % projects.length);
     } else {
       setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
     }
   };
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-      rotateY: direction > 0 ? 45 : -45,
-      scale: 0.8,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      rotateY: 0,
-      scale: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction > 0 ? -1000 : 1000,
-      opacity: 0,
-      rotateY: direction > 0 ? -45 : 45,
-      scale: 0.8,
-    }),
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const threshold = 30;
+    if (Math.abs(info.offset.x) > threshold) {
+      if (info.offset.x > 0) {
+        navigateCarousel(-1);
+      } else {
+        navigateCarousel(1);
+      }
+    }
+  };
+
+  // Calculate position for circular arrangement
+  const getCardStyle = (index: number) => {
+    const totalCards = projects.length;
+    const position = (index - currentIndex + totalCards) % totalCards;
+
+    // Determine if card should be visible (show 3 cards: current, next, previous)
+    const isVisible = position === 0 || position === 1 || position === totalCards - 1;
+
+    if (!isVisible) return { display: 'none' };
+
+    // Calculate circular position
+    let offset = 0;
+    let scale = 1;
+    let blur = 0;
+    let opacity = 1;
+    let zIndex = 0;
+    let rotateY = 0;
+
+    if (position === 0) {
+      // Center card (active)
+      offset = 0;
+      scale = 1;
+      blur = 0;
+      opacity = 1;
+      zIndex = 30;
+      rotateY = 0;
+    } else if (position === 1) {
+      // Next card (right side)
+      offset = 160;
+      scale = 0.8;
+      blur = 2;
+      opacity = 0.6;
+      zIndex = 20;
+      rotateY = -25;
+    } else {
+      // Previous card (left side)
+      offset = -160;
+      scale = 0.8;
+      blur = 2;
+      opacity = 0.6;
+      zIndex = 20;
+      rotateY = 25;
+    }
+
+    return {
+      x: offset,
+      scale,
+      opacity,
+      zIndex,
+      filter: `blur(${blur}px)`,
+      rotateY,
+    };
   };
 
   return (
-    <section id="projects" className="min-h-screen py-32 px-6 relative overflow-hidden">
+    <section id="projects" className="min-h-screen py-32 px-6 relative overflow-hidden bg-gradient-to-b from-black to-gray-900">
       {/* Background elements */}
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-white/5 blur-[120px] rounded-full"></div>
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/5 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full"></div>
 
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-20"
-        >
-          <h2 className="text-5xl md:text-7xl mb-6">Featured Projects</h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '100px' }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-1 bg-white"
-          ></motion.div>
-        </motion.div>
+      <div className="max-w-6xl mx-auto">
+        <div className="relative" style={{ perspective: '1200px' }}>
+          <div className="relative h-[400px] flex items-center justify-center">
+            {/* Render cards in circular arrangement */}
+            {projects.map((project, index) => {
+              const cardStyle = getCardStyle(index);
+              const isActive = (index - currentIndex + projects.length) % projects.length === 0;
 
-        {/* 3D Carousel Container */}
-        <div className="relative" style={{ perspective: '2000px' }}>
-          <div className="relative h-[600px] flex items-center justify-center">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.5 },
-                  rotateY: { duration: 0.6 },
-                  scale: { duration: 0.5 },
-                }}
-                className="absolute w-full max-w-5xl"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  {/* Project Image */}
+              if (cardStyle.display === 'none') return null;
+
+              return (
+                <motion.div
+                  key={index}
+                  drag={isActive ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.3}
+                  onDragEnd={isActive ? handleDragEnd : undefined}
+                  initial={false}
+                  animate={cardStyle}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 30,
+                  }}
+                  className="absolute w-[260px]"
+                  style={{
+                    width: '260px',
+                    zIndex: cardStyle.zIndex,
+                    pointerEvents: isActive ? 'auto' : 'none',
+                    transformStyle: 'preserve-3d',
+                    cursor: isActive ? 'grab' : 'default',
+                  }}
+                >
+                  {/* Card Content */}
                   <motion.div
-                    whileHover={{ scale: 1.02, rotateY: -5 }}
+                    whileHover={isActive ? { y: -5 } : {}}
                     transition={{ duration: 0.3 }}
-                    className="relative group"
+                    className="relative"
                     style={{ transformStyle: 'preserve-3d' }}
                   >
-                    <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm">
-                      <div className="aspect-[4/3] relative">
+                    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl shadow-2xl">
+                      {/* Project Image */}
+                      <div className="aspect-[16/10] relative overflow-hidden">
                         <ImageWithFallback
-                          src={projects[currentIndex].image}
-                          alt={projects[currentIndex].title}
+                          src={project.image}
+                          alt={project.title}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+                        {/* Project Number Badge */}
+                        <div className="absolute top-6 right-6 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/20 rounded-full">
+                          <span className="text-xs font-mono text-white/60">
+                            {String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Hover overlay with links */}
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center gap-4"
-                      >
-                        <motion.button
-                          whileHover={{ scale: 1.2, rotate: 10 }}
-                          whileTap={{ scale: 0.9 }}
-                          className="p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 transition-colors"
-                        >
-                          <Github size={24} />
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.2, rotate: -10 }}
-                          whileTap={{ scale: 0.9 }}
-                          className="p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 transition-colors"
-                        >
-                          <ExternalLink size={24} />
-                        </motion.button>
-                      </motion.div>
+                      {/* Project Info */}
+                      <div className="flex flex-col h-full justify-between">
+                        <div className="p-5 space-y-3">
+                          <h3 className="text-xl font-bold text-white tracking-tight">
+                            {project.title}
+                          </h3>
+                          <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
+                            {project.description}
+                          </p>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-5 py-4 border-t border-white/10 flex items-center justify-between gap-3 mt-auto bg-black/40">
+                          {/* Tech indicator */}
+                          <div className="flex items-center gap-1.5 opacity-60">
+                            <div className="text-[10px] font-mono uppercase tracking-wider text-white">
+                              {project.tags.slice(0, 2).join(' • ')}
+                              {project.tags.length > 2 && <span className="opacity-50"> +{project.tags.length - 2}</span>}
+                            </div>
+                          </div>
+
+                          {/* Actions */}
+                          <div className="flex items-center gap-2">
+                            <motion.a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.1, color: "#fff" }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                            >
+                              <Github size={14} className="text-white/70 group-hover:text-white" />
+                              <span className="text-[10px] font-medium text-white/70 group-hover:text-white">CODE</span>
+                            </motion.a>
+                            <motion.a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.1, color: "#fff" }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                            >
+                              <ExternalLink size={14} className="text-white/70 group-hover:text-white" />
+                              <span className="text-[10px] font-medium text-white/70 group-hover:text-white">DEMO</span>
+                            </motion.a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* 3D shadow effect */}
-                    <div className="absolute inset-0 bg-white/5 blur-xl -z-10 translate-y-4"></div>
+                    {/* Soft shadow */}
+                    <div className="absolute inset-0 bg-black/30 blur-3xl -z-10 translate-y-8 scale-95"></div>
                   </motion.div>
-
-                  {/* Project Info */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="space-y-6"
-                  >
-                    <div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-white/40 mb-2"
-                      >
-                        Project {String(currentIndex + 1).padStart(2, '0')}
-                      </motion.div>
-                      <motion.h3
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="text-4xl md:text-5xl mb-4"
-                      >
-                        {projects[currentIndex].title}
-                      </motion.h3>
-                    </div>
-
-                    <motion.p
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                      className="text-white/60"
-                    >
-                      {projects[currentIndex].description}
-                    </motion.p>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 }}
-                      className="flex flex-wrap gap-3"
-                    >
-                      {projects[currentIndex].tags.map((tag, index) => (
-                        <motion.span
-                          key={tag}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.7 + index * 0.1 }}
-                          whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                          className="px-4 py-2 border border-white/20 rounded-full text-white/70 bg-white/5 backdrop-blur-sm"
-                        >
-                          {tag}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-center gap-6 mt-12">
+          <div className="flex items-center justify-center gap-5 mt-10">
             <motion.button
-              whileHover={{ scale: 1.1, x: -5 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigateCarousel(-1)}
-              className="p-4 border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors rounded-xl"
+              className="group p-4 border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all rounded-xl"
             >
-              <ChevronLeft size={24} />
+              <svg className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </motion.button>
 
             {/* Progress indicators */}
@@ -245,64 +280,42 @@ export function Projects() {
               {projects.map((_, index) => (
                 <motion.button
                   key={index}
-                  onClick={() => {
-                    setDirection(index > currentIndex ? 1 : -1);
-                    setCurrentIndex(index);
-                  }}
-                  whileHover={{ scale: 1.2 }}
-                  className="relative"
+                  onClick={() => setCurrentIndex(index)}
+                  whileHover={{ scale: 1.3 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="relative group"
                 >
                   <div
-                    className={`w-3 h-3 rounded-full border border-white/30 transition-all ${
-                      index === currentIndex ? 'bg-white' : 'bg-white/20'
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
+                      ? 'bg-white w-8'
+                      : 'bg-white/30 group-hover:bg-white/50'
+                      }`}
                   ></div>
-                  {index === currentIndex && (
-                    <motion.div
-                      layoutId="activeIndicator"
-                      className="absolute inset-0 rounded-full border-2 border-white"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    ></motion.div>
-                  )}
                 </motion.button>
               ))}
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.1, x: 5 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigateCarousel(1)}
-              className="p-4 border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors rounded-xl"
+              className="group p-4 border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all rounded-xl"
             >
-              <ChevronRight size={24} />
+              <svg className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </motion.button>
           </div>
 
-          {/* Auto-play progress bar */}
-          <div className="mt-8 max-w-md mx-auto">
-            <div className="h-1 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-              <motion.div
-                key={currentIndex}
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 5, ease: 'linear' }}
-                className="h-full bg-gradient-to-r from-white/50 via-white to-white/50 relative"
-              >
-                <motion.div
-                  animate={{
-                    x: ['-100%', '200%'],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent"
-                  style={{ width: '50%' }}
-                ></motion.div>
-              </motion.div>
-            </div>
-          </div>
+          {/* Swipe Hint */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+            className="text-center mt-12"
+          >
+            <p className="text-white/30 text-sm font-light tracking-wide">Drag or use arrows to explore projects</p>
+          </motion.div>
         </div>
       </div>
     </section>
