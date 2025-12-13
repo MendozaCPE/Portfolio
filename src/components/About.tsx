@@ -11,9 +11,8 @@ import {
   GraduationCap,
   Target,
   Sparkles,
-  Star,
-  Gem,
 } from "lucide-react";
+import { profile } from "../data/profile";
 
 export function About() {
   const ref = useRef(null);
@@ -23,38 +22,13 @@ export function About() {
     offset: ["start end", "end start"],
   });
 
+
+
   const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
 
-  const stats = [
-    { number: "50+", label: "Projects", icon: Sparkles },
-    { number: "3+", label: "Years", icon: Star },
-    { number: "15+", label: "Technologies", icon: Gem },
-    { number: "100%", label: "Satisfaction", icon: Award },
-  ];
-
-  const values = [
-    {
-      icon: Code2,
-      title: "Clean Code",
-      description: "Maintainable, scalable solutions",
-    },
-    {
-      icon: Lightbulb,
-      title: "Innovation",
-      description: "Creative problem-solving",
-    },
-    {
-      icon: Rocket,
-      title: "Performance",
-      description: "Optimized user experiences",
-    },
-    {
-      icon: Users,
-      title: "Collaboration",
-      description: "Team-oriented approach",
-    },
-  ];
+  const stats = profile.stats;
+  const values = profile.values;
 
   return (
     <section
@@ -356,9 +330,7 @@ export function About() {
               {/* Background removed */}
               <div className="relative p-0 space-y-4">
                 <p className="text-white/80 text-lg md:text-xl leading-relaxed">
-                  I craft <span className="text-white font-medium">digital experiences</span> where form meets function.
-                  Clean code, thoughtful design, and attention to detail
-                  define my approach to development.
+                  {profile.bio}
                 </p>
               </div>
             </motion.div>
@@ -474,11 +446,10 @@ export function About() {
                 />
 
                 <div className="text-2xl md:text-3xl font-light text-white/90 mb-3 italic leading-relaxed">
-                  "Less is more"
+                  "{profile.quote.text}"
                 </div>
                 <p className="text-white/50 text-sm leading-relaxed">
-                  Every element serves a purpose. Every line of code tells a story.
-                  Simplicity isn't about removing value—it's about revealing it.
+                  {profile.quote.subtext}
                 </p>
               </div>
             </motion.div>

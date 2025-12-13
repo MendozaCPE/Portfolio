@@ -15,10 +15,13 @@ import profilePicture from "./uploads/profilePicture.png";
 import { useState } from "react";
 import { Github } from "lucide-react";
 
+import { profile } from "../data/profile";
+import { heroSkills } from "../data/skills";
+
 export function Hero() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
-  const skills = ["React", "TypeScript", "Node.js", "Python", "UI/UX", "Cloud"];
+  const skills = heroSkills;
 
   const floatingIcons = [
     { Icon: Github, position: { top: "10%", right: "60%" }, delay: 0 },
@@ -159,7 +162,7 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-4xl lg:text-5xl xl:text-6xl mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70"
               >
-                Christian Paul Mendoza
+                {profile.name}
               </motion.h1>
 
               <motion.div
@@ -169,14 +172,7 @@ export function Hero() {
                 className="mb-8 text-lg"
               >
                 <TypingAnimation
-                  titles={[
-                    "IT Student",
-                    "Software Developer",
-                    "Full-Stack Developer",
-                    "UI/UX Designer",
-                    "Problem Solver",
-                    "Tech Enthusiast",
-                  ]}
+                  titles={profile.titles}
                 />
               </motion.div>
 

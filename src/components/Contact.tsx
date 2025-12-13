@@ -1,20 +1,41 @@
 import { motion } from 'motion/react';
 import { Mail, Github, Linkedin, Twitter, MapPin, Send } from 'lucide-react';
+import { profile } from '../data/profile';
+import { mockBackend } from '../services/mockBackend';
+import { useState } from 'react';
 
 export function Contact() {
-  const socialLinks = [
-    { icon: Github, label: 'GitHub', href: '#', username: '@christianpaulmendoza' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#', username: 'Christian Paul Mendoza' },
-    { icon: Twitter, label: 'Twitter', href: '#', username: '@cpmendoza_dev' },
-    { icon: Mail, label: 'Email', href: 'mailto:contact@christianmendoza.dev', username: 'contact@christianmendoza.dev' },
-  ];
+  const socialLinks = profile.socials;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      // Extract form data here if using controlled inputs or FormData
+      // For now we just call the mock backend
+      await mockBackend.sendMessage({
+        name: 'Test',
+        email: 'test@test.com',
+        subject: 'Test',
+        message: 'Test'
+      });
+      setFormStatus('success');
+      setTimeout(() => setFormStatus('idle'), 3000);
+    } catch {
+      setFormStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="min-h-screen py-32 px-6 relative overflow-hidden">
       {/* Enhanced background elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 blur-[180px] rounded-full"></div>
       <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-white/5 blur-[120px] rounded-full"></div>
-      
+
       {/* Grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
 
@@ -52,8 +73,8 @@ export function Contact() {
               className="border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-3xl p-8 md:p-10"
             >
               <h3 className="text-2xl md:text-3xl mb-8">Send a Message</h3>
-              
-              <form className="space-y-6">
+
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block mb-3 text-white/80">Your Name</label>
@@ -74,7 +95,7 @@ export function Contact() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="subject" className="block mb-3 text-white/80">Subject</label>
                   <input
@@ -84,7 +105,7 @@ export function Contact() {
                     placeholder="Project Inquiry"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block mb-3 text-white/80">Message</label>
                   <textarea
@@ -94,17 +115,18 @@ export function Contact() {
                     placeholder="Tell me about your project..."
                   ></textarea>
                 </div>
-                
+
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.02, 
-                    boxShadow: '0 0 40px rgba(255,255,255,0.3)' 
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: '0 0 40px rgba(255,255,255,0.3)'
                   }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full px-8 py-4 bg-white text-black hover:bg-white/90 transition-all rounded-xl flex items-center justify-center gap-2 group"
+                  className="w-full px-8 py-4 bg-white text-black hover:bg-white/90 transition-all rounded-xl flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
                 >
-                  <span>Send Message</span>
+                  <span>{isSubmitting ? 'Sending...' : formStatus === 'success' ? 'Message Sent!' : 'Send Message'}</span>
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
@@ -139,8 +161,8 @@ export function Contact() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ 
-                      x: 10, 
+                    whileHover={{
+                      x: 10,
                       backgroundColor: 'rgba(255,255,255,0.15)',
                       boxShadow: '0 10px 30px rgba(255,255,255,0.1)'
                     }}
@@ -185,7 +207,7 @@ export function Contact() {
                     Available for remote opportunities worldwide
                   </p>
                   <p className="text-white/40 mt-1">
-                    Based in United States
+                    {profile.location.label}
                   </p>
                 </div>
               </div>
@@ -211,8 +233,7 @@ export function Contact() {
                 <span className="text-green-400">Available for Projects</span>
               </div>
               <p className="text-white/60">
-                Currently accepting new freelance and full-time opportunities. 
-                Let's build something amazing together!
+                {profile.status.text}
               </p>
             </motion.div>
           </motion.div>
@@ -227,7 +248,7 @@ export function Contact() {
           className="mt-20 pt-10 border-t border-white/10 text-center"
         >
           <p className="text-white/40">
-            &copy; 2025 Christian Paul Mendoza. Designed & Built with passion.
+            &copy; {new Date().getFullYear()} {profile.name}. Designed & Built with passion.
           </p>
           <p className="text-white/30 mt-2">
             Crafted with React, TypeScript & Tailwind CSS
