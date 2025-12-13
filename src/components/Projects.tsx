@@ -169,7 +169,7 @@ export function Projects() {
                   >
                     <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl shadow-2xl">
                       {/* Project Image */}
-                      <div className="aspect-[16/10] relative overflow-hidden">
+                      <div className="h-48 w-full relative overflow-hidden">
                         <ImageWithFallback
                           src={project.image}
                           alt={project.title}
