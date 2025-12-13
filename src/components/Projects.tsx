@@ -53,66 +53,66 @@ export function Projects() {
     const totalCards = projects.length;
     const position = (index - currentIndex + totalCards) % totalCards;
 
-    // Determine if card should be visible (show 5 cards: current, 2 next, 2 previous)
-    const isVisible =
-      position === 0 ||
-      position === 1 || position === 2 ||
-      position === totalCards - 1 || position === totalCards - 2;
+    // Normalize position to be between -totalCards/2 and totalCards/2
+    const centerOffset = position > totalCards / 2 ? position - totalCards : position;
+
+    // Determine if card should be visible (show 5 cards: current, +/- 1, +/- 2)
+    const isVisible = Math.abs(centerOffset) <= 2;
 
     if (!isVisible) return { display: 'none' };
 
     // Calculate circular position
-    let offset = 0;
+    let x = 0;
     let scale = 1;
     let blur = 0;
     let opacity = 1;
     let zIndex = 0;
     let rotateY = 0;
 
-    if (position === 0) {
-      // Center card (active)
-      offset = 0;
-      scale = 1;
+    if (centerOffset === 0) {
+      // Center card (active) - Increased size
+      x = 0;
+      scale = 1.3; // Made bigger as requested
       blur = 0;
       opacity = 1;
-      zIndex = 30;
+      zIndex = 50;
       rotateY = 0;
-    } else if (position === 1) {
-      // Next card 1 (right side)
-      offset = 160;
-      scale = 0.8;
+    } else if (centerOffset === 1) {
+      // First right
+      x = 220; // Adjusted for bigger center
+      scale = 0.9;
       blur = 2;
-      opacity = 0.6;
-      zIndex = 20;
+      opacity = 0.8;
+      zIndex = 40;
+      rotateY = -15;
+    } else if (centerOffset === -1) {
+      // First left
+      x = -220;
+      scale = 0.9;
+      blur = 2;
+      opacity = 0.8;
+      zIndex = 40;
+      rotateY = 15;
+    } else if (centerOffset === 2) {
+      // Second right
+      x = 380;
+      scale = 0.7;
+      blur = 4;
+      opacity = 0.5;
+      zIndex = 30;
       rotateY = -25;
-    } else if (position === 2) {
-      // Next card 2 (far right side)
-      offset = 280;
-      scale = 0.65;
+    } else if (centerOffset === -2) {
+      // Second left
+      x = -380;
+      scale = 0.7;
       blur = 4;
-      opacity = 0.4;
-      zIndex = 10;
-      rotateY = -35;
-    } else if (position === totalCards - 1) {
-      // Previous card 1 (left side)
-      offset = -160;
-      scale = 0.8;
-      blur = 2;
-      opacity = 0.6;
-      zIndex = 20;
+      opacity = 0.5;
+      zIndex = 30;
       rotateY = 25;
-    } else {
-      // Previous card 2 (far left side)
-      offset = -280;
-      scale = 0.65;
-      blur = 4;
-      opacity = 0.4;
-      zIndex = 10;
-      rotateY = 35;
     }
 
     return {
-      x: offset,
+      x,
       scale,
       opacity,
       zIndex,
@@ -129,7 +129,7 @@ export function Projects() {
 
       <div className="max-w-6xl mx-auto">
         <div className="relative" style={{ perspective: '1200px' }}>
-          <div className="relative h-[400px] flex items-center justify-center">
+          <div className="relative h-[600px] flex items-center justify-center">
             {/* Render cards in circular arrangement */}
             {projects.map((project, index) => {
               const cardStyle = getCardStyle(index);
@@ -151,9 +151,10 @@ export function Projects() {
                     stiffness: 300,
                     damping: 30,
                   }}
-                  className="absolute w-[260px]"
+                  className="absolute w-[280px] h-[450px]"
                   style={{
-                    width: '260px',
+                    width: '280px',
+                    height: '450px',
                     zIndex: cardStyle.zIndex,
                     pointerEvents: isActive ? 'auto' : 'none',
                     transformStyle: 'preserve-3d',
@@ -164,12 +165,12 @@ export function Projects() {
                   <motion.div
                     whileHover={isActive ? { y: -5 } : {}}
                     transition={{ duration: 0.3 }}
-                    className="relative"
+                    className="relative h-full"
                     style={{ transformStyle: 'preserve-3d' }}
                   >
-                    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl shadow-2xl">
-                      {/* Project Image */}
-                      <div className="h-48 w-full relative overflow-hidden">
+                    <div className="relative h-full flex flex-col overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl shadow-2xl">
+                      {/* Project Image - Fixed Aspect Ratio */}
+                      <div className="aspect-[16/10] relative overflow-hidden bg-gray-900">
                         <ImageWithFallback
                           src={project.image}
                           alt={project.title}
@@ -186,12 +187,12 @@ export function Projects() {
                       </div>
 
                       {/* Project Info */}
-                      <div className="flex flex-col h-full justify-between">
+                      <div className="flex flex-col flex-1 justify-between min-h-0">
                         <div className="p-5 space-y-3">
-                          <h3 className="text-xl font-bold text-white tracking-tight">
+                          <h3 className="text-sm font-bold text-white tracking-tight">
                             {project.title}
                           </h3>
-                          <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
+                          <p className="text-white/70 text-[10px] leading-relaxed line-clamp-2">
                             {project.description}
                           </p>
                         </div>
@@ -200,7 +201,7 @@ export function Projects() {
                         <div className="px-5 py-4 border-t border-white/10 flex items-center justify-between gap-3 mt-auto bg-black/40">
                           {/* Tech indicator */}
                           <div className="flex items-center gap-1.5 opacity-60">
-                            <div className="text-[10px] font-mono uppercase tracking-wider text-white">
+                            <div className="text-[8px] font-mono uppercase tracking-wider text-white">
                               {project.tags.slice(0, 2).join(' • ')}
                               {project.tags.length > 2 && <span className="opacity-50"> +{project.tags.length - 2}</span>}
                             </div>
@@ -213,20 +214,20 @@ export function Projects() {
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, color: "#fff" }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
                             >
-                              <Github size={14} className="text-white/70 group-hover:text-white" />
-                              <span className="text-[10px] font-medium text-white/70 group-hover:text-white">CODE</span>
+                              <Github size={10} className="text-white/70 group-hover:text-white" />
+                              <span className="text-[8px] font-medium text-white/70 group-hover:text-white">CODE</span>
                             </motion.a>
                             <motion.a
                               href={project.demo}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, color: "#fff" }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
                             >
-                              <ExternalLink size={14} className="text-white/70 group-hover:text-white" />
-                              <span className="text-[10px] font-medium text-white/70 group-hover:text-white">DEMO</span>
+                              <ExternalLink size={10} className="text-white/70 group-hover:text-white" />
+                              <span className="text-[8px] font-medium text-white/70 group-hover:text-white">DEMO</span>
                             </motion.a>
                           </div>
                         </div>
