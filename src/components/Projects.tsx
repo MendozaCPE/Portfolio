@@ -53,8 +53,11 @@ export function Projects() {
     const totalCards = projects.length;
     const position = (index - currentIndex + totalCards) % totalCards;
 
-    // Determine if card should be visible (show 3 cards: current, next, previous)
-    const isVisible = position === 0 || position === 1 || position === totalCards - 1;
+    // Determine if card should be visible (show 5 cards: current, 2 next, 2 previous)
+    const isVisible =
+      position === 0 ||
+      position === 1 || position === 2 ||
+      position === totalCards - 1 || position === totalCards - 2;
 
     if (!isVisible) return { display: 'none' };
 
@@ -75,21 +78,37 @@ export function Projects() {
       zIndex = 30;
       rotateY = 0;
     } else if (position === 1) {
-      // Next card (right side)
+      // Next card 1 (right side)
       offset = 160;
       scale = 0.8;
       blur = 2;
       opacity = 0.6;
       zIndex = 20;
       rotateY = -25;
-    } else {
-      // Previous card (left side)
+    } else if (position === 2) {
+      // Next card 2 (far right side)
+      offset = 280;
+      scale = 0.65;
+      blur = 4;
+      opacity = 0.4;
+      zIndex = 10;
+      rotateY = -35;
+    } else if (position === totalCards - 1) {
+      // Previous card 1 (left side)
       offset = -160;
       scale = 0.8;
       blur = 2;
       opacity = 0.6;
       zIndex = 20;
       rotateY = 25;
+    } else {
+      // Previous card 2 (far left side)
+      offset = -280;
+      scale = 0.65;
+      blur = 4;
+      opacity = 0.4;
+      zIndex = 10;
+      rotateY = 35;
     }
 
     return {
@@ -223,7 +242,7 @@ export function Projects() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-center gap-5 mt-10">
+          <div className="flex items-center justify-center gap-5 mt-20">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
