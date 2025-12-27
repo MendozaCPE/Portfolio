@@ -31,7 +31,7 @@ export function Skills() {
 
 
     return (
-        <section id="skills" className="min-h-screen py-20 px-4 relative bg-black overflow-hidden">
+        <section id="skills" className="pt-16 px-4 relative bg-black overflow-hidden">
             {/* Subtle background effects */}
             <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/10 to-black"></div>
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(120,120,120,0.1)_0%,transparent_70%)]"></div>
@@ -43,18 +43,15 @@ export function Skills() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6 }}
-                    className="mb-16 text-center"
+                    className="mb-20 text-center"
                 >
                     <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-tight">
                         Technical Skills
                     </h2>
-                    <p className="text-gray-400 text-lg font-light">
-                        Expertise across the stack
-                    </p>
                 </motion.div>
 
                 {/* Skill Cards with Stronger Cursor Effect */}
-                <div className="grid md:grid-cols-3 gap-6 mb-16">
+                <div className="grid md:grid-cols-3 gap-6 mb-8">
                     {skillCategories.map((category, categoryIndex) => {
                         const cardPos = cardMousePositions[category.category] || { x: 0, y: 0 };
 
@@ -159,7 +156,7 @@ export function Skills() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.5 }}
-                    className="relative"
+                    className="relative mt-8 mb-20"
                 >
                     <div
                         ref={learningRef}
