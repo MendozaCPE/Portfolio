@@ -1,5 +1,5 @@
 import { motion, PanInfo } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { projects } from '../data/projects';
 
@@ -28,6 +28,15 @@ export function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
 
+
+  // Auto-play functionality
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentIndex]); // Reset timer when index changes (manual or auto)
 
   const navigateCarousel = (direction: number) => {
     if (direction > 0) {
@@ -127,6 +136,9 @@ export function Projects() {
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/5 blur-[120px] rounded-full"></div>
       <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full"></div>
 
+      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
+
       <div className="max-w-6xl mx-auto">
         <div className="relative" style={{ perspective: '1200px' }}>
           <div className="relative h-[600px] flex items-center justify-center">
@@ -188,11 +200,17 @@ export function Projects() {
 
                       {/* Project Info */}
                       <div className="flex flex-col flex-1 justify-between min-h-0">
-                        <div className="p-5 space-y-3">
-                          <h3 className="text-sm font-bold text-white tracking-tight">
+                        <div className="p-5 space-y-2">
+                          <h3
+                            className="font-bold text-white tracking-tight"
+                            style={{ fontSize: '11px', lineHeight: '1.2' }}
+                          >
                             {project.title}
                           </h3>
-                          <p className="text-white/70 text-[10px] leading-relaxed line-clamp-2">
+                          <p
+                            className="text-white/70 leading-relaxed line-clamp-2"
+                            style={{ fontSize: '9px', lineHeight: '1.4' }}
+                          >
                             {project.description}
                           </p>
                         </div>
@@ -201,7 +219,10 @@ export function Projects() {
                         <div className="px-5 py-4 border-t border-white/10 flex items-center justify-between gap-3 mt-auto bg-black/40">
                           {/* Tech indicator */}
                           <div className="flex items-center gap-1.5 opacity-60">
-                            <div className="text-[8px] font-mono uppercase tracking-wider text-white">
+                            <div
+                              className="font-mono uppercase tracking-wider text-white"
+                              style={{ fontSize: '7px' }}
+                            >
                               {project.tags.slice(0, 2).join(' • ')}
                               {project.tags.length > 2 && <span className="opacity-50"> +{project.tags.length - 2}</span>}
                             </div>
@@ -214,20 +235,18 @@ export function Projects() {
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, color: "#fff" }}
-                              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                              className="flex items-center justify-center p-2 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
                             >
-                              <Github size={10} className="text-white/70 group-hover:text-white" />
-                              <span className="text-[8px] font-medium text-white/70 group-hover:text-white">CODE</span>
+                              <Github size={16} className="text-white/70 group-hover:text-white" />
                             </motion.a>
                             <motion.a
                               href={project.demo}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, color: "#fff" }}
-                              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
+                              className="flex items-center justify-center p-2 rounded-full bg-white/5 hover:bg-white/20 transition-colors border border-white/5 group"
                             >
-                              <ExternalLink size={10} className="text-white/70 group-hover:text-white" />
-                              <span className="text-[8px] font-medium text-white/70 group-hover:text-white">DEMO</span>
+                              <ExternalLink size={16} className="text-white/70 group-hover:text-white" />
                             </motion.a>
                           </div>
                         </div>
@@ -242,60 +261,7 @@ export function Projects() {
             })}
           </div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-center gap-5 mt-20">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigateCarousel(-1)}
-              className="group p-4 border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all rounded-xl"
-            >
-              <svg className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </motion.button>
 
-            {/* Progress indicators */}
-            <div className="flex gap-3">
-              {projects.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  whileHover={{ scale: 1.3 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="relative group"
-                >
-                  <div
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                      ? 'bg-white w-8'
-                      : 'bg-white/30 group-hover:bg-white/50'
-                      }`}
-                  ></div>
-                </motion.button>
-              ))}
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigateCarousel(1)}
-              className="group p-4 border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all rounded-xl"
-            >
-              <svg className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </motion.button>
-          </div>
-
-          {/* Swipe Hint */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-            className="text-center mt-12"
-          >
-            <p className="text-white/30 text-sm font-light tracking-wide">Drag or use arrows to explore projects</p>
-          </motion.div>
         </div>
       </div>
     </section>
