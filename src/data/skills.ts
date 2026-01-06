@@ -37,4 +37,4 @@ export const skillCategories = [
     },
 ];
 
-export const heroSkills = ["React", "TypeScript", "Node.js", "Python", "UI/UX", "Cloud"];
+export const heroSkills = ["HTML/CSS", "JavaScript", "Java", "Python", "React", "UI/UX", "XAMPP", "Git"];

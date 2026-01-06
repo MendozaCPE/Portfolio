@@ -58,26 +58,7 @@ export function Hero() {
           }}
         ></motion.div>
 
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+
 
         <motion.div
           animate={{
@@ -222,7 +203,8 @@ export function Hero() {
                   </motion.div>
                 </motion.a>
                 <motion.a
-                  href="#"
+                  href="/Mendoza Resume.pdf"
+                  download="Mendoza Resume.pdf"
                   whileHover={{
                     scale: 1.05,
                     backgroundColor: "rgba(255,255,255,0.15)",
@@ -231,7 +213,7 @@ export function Hero() {
                   className="px-6 py-3 border border-white/30 bg-white/5 backdrop-blur-sm rounded-xl flex items-center gap-2"
                 >
                   <Download size={18} />
-                  <span>Download CV</span>
+                  <span>Download Resume</span>
                 </motion.a>
               </motion.div>
             </div>
