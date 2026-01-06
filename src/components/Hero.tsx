@@ -258,12 +258,12 @@ export function Hero() {
 
 
 
-            {/* Light rays */}
+            {/* Expanded Light rays */}
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-20"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400%] h-[400%] opacity-[0.15] pointer-events-none"
               style={{
                 background:
-                  "conic-gradient(from 0deg, transparent 0%, rgba(255,255,255,0.1) 10%, transparent 20%, rgba(255,255,255,0.1) 30%, transparent 40%)",
+                  "conic-gradient(from 0deg, transparent 0%, rgba(255,255,255,0.08) 10%, transparent 20%, rgba(255,255,255,0.08) 30%, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%, rgba(255,255,255,0.08) 70%, transparent 80%, rgba(255,255,255,0.08) 90%, transparent 100%)",
               }}
             ></div>
           </div>
