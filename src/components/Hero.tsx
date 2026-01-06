@@ -41,49 +41,21 @@ export function Hero() {
       {/* Dynamic animated background */}
       <div className="absolute inset-0">
         {/* Animated mesh gradient */}
-        <motion.div
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute inset-0 opacity-30"
-          style={{
-            background:
-              "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)",
-            backgroundSize: "200% 200%",
-          }}
-        ></motion.div>
+        <div className="absolute inset-0">
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              background:
+                "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)",
+              backgroundSize: "200% 200%",
+            }}
+          ></div>
 
 
-
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute top-10 left-10 w-96 h-96 border border-white/5 rounded-full"
-        ></motion.div>
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, -90, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute bottom-20 right-20 w-64 h-64 bg-white/5 blur-[100px]"
-        ></motion.div>
+          <div
+            className="absolute bottom-20 right-20 w-64 h-64 bg-white/5 blur-[100px]"
+          ></div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 mt-8 lg:mt-0">
@@ -101,18 +73,10 @@ export function Hero() {
             style={{ transformStyle: "preserve-3d" }}
           >
             {/* Animated gradient overlay */}
-            <motion.div
-              animate={{
-                backgroundPosition: ["0% 0%", "100% 100%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
+            <div
               className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 opacity-50"
               style={{ backgroundSize: "200% 200%" }}
-            ></motion.div>
+            ></div>
 
             <div className="relative z-10">
               {/* Greeting badge */}
@@ -122,19 +86,11 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="inline-block mb-6"
               >
-                <motion.div
-                  animate={{
-                    boxShadow: [
-                      "0 0 20px rgba(255,255,255,0.2)",
-                      "0 0 40px rgba(255,255,255,0.4)",
-                      "0 0 20px rgba(255,255,255,0.2)",
-                    ],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                <div
                   className="px-4 py-2 border border-white/30 bg-white/10 backdrop-blur-sm rounded-full text-sm"
                 >
                   👋 Welcome to my portfolio
-                </motion.div>
+                </div>
               </motion.div>
 
               <motion.h1
@@ -244,18 +200,10 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
                 {/* Overlay effect */}
-                <motion.div
-                  animate={{
-                    backgroundPosition: ["0% 0%", "100% 100%"],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                  }}
+                <div
                   className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-50"
                   style={{ backgroundSize: "200% 200%" }}
-                ></motion.div>
+                ></div>
               </div>
 
               {/* Glow effect */}
@@ -306,49 +254,18 @@ export function Hero() {
             ))}
 
             {/* Geometric decorative shapes */}
-            <motion.div
-              animate={{
-                rotateX: [0, 360],
-                rotateY: [0, 360],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute -top-10 -left-10 w-24 h-24 border-2 border-white/20"
-              style={{ transform: "rotateX(45deg) rotateY(45deg)" }}
-            ></motion.div>
 
-            <motion.div
-              animate={{
-                rotateX: [0, -360],
-                rotateY: [0, 360],
-              }}
-              transition={{
-                duration: 25,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute -bottom-8 -right-8 w-20 h-20 border-2 border-white/20 rounded-full"
-            ></motion.div>
+
+
 
             {/* Light rays */}
-            <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 30,
-                repeat: Infinity,
-                ease: "linear",
-              }}
+            <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-20"
               style={{
                 background:
                   "conic-gradient(from 0deg, transparent 0%, rgba(255,255,255,0.1) 10%, transparent 20%, rgba(255,255,255,0.1) 30%, transparent 40%)",
               }}
-            ></motion.div>
+            ></div>
           </div>
         </motion.div>
       </div>
@@ -361,11 +278,9 @@ export function Hero() {
         className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
         style={{ bottom: "10px" }}
       >
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        <div
           className="w-px h-12 bg-gradient-to-b from-transparent to-white/50"
-        ></motion.div>
+        ></div>
         <motion.span
           className="text-white/50 tracking-widest text-sm"
           whileHover={{ color: "rgba(255,255,255,0.8)" }}
