@@ -219,17 +219,9 @@ export function Contact() {
               className="border border-white/10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-3xl p-8"
             >
               <div className="flex items-center gap-3 mb-4">
-                <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [1, 0.5, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                  }}
+                <div
                   className="w-3 h-3 bg-green-500 rounded-full"
-                ></motion.div>
+                ></div>
                 <span className="text-green-400">Available for Projects</span>
               </div>
               <p className="text-white/60">
@@ -257,31 +249,14 @@ export function Contact() {
       </div>
 
       {/* Floating geometric shapes */}
-      <motion.div
-        animate={{
-          rotateX: [0, 360],
-          rotateY: [0, -360],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
+      <div
         className="absolute top-20 left-20 w-32 h-32 border border-white/5"
         style={{ transform: 'rotateX(45deg) rotateY(45deg)' }}
-      ></motion.div>
+      ></div>
 
-      <motion.div
-        animate={{
-          rotateZ: [0, 360],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
+      <div
         className="absolute bottom-20 right-20 w-40 h-40 border border-white/5 rounded-full"
-      ></motion.div>
+      ></div>
     </section>
   );
 }
