@@ -67,8 +67,6 @@ export const profile = {
     stats: [
         { number: "50+", label: "Projects", icon: Sparkles },
         { number: "3+", label: "Years", icon: Star },
-        { number: "15+", label: "Technologies", icon: Gem },
-        { number: "100%", label: "Satisfaction", icon: Award },
     ],
     values: [
         {
