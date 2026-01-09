@@ -9,7 +9,7 @@ export const skillCategories = [
         skills: [
             { name: 'React', level: 90 },
             { name: 'TypeScript', level: 85 },
-            { name: 'Tailwind CSS', level: 95 },
+            { name: 'HTML/CSS', level: 95 },
             { name: 'Next.js', level: 80 },
         ],
     },
@@ -30,9 +30,9 @@ export const skillCategories = [
         color: 'from-violet-500 via-violet-600 to-purple-500',
         skills: [
             { name: 'Git', level: 90 },
-            { name: 'Docker', level: 70 },
+            { name: 'XAMPP', level: 70 },
             { name: 'Figma', level: 85 },
-            { name: 'AWS', level: 65 },
+            { name: 'Google Colab', level: 65 },
         ],
     },
 ];
