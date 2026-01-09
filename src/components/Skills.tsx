@@ -46,7 +46,7 @@ export function Skills() {
                     className="mb-20 text-center"
                 >
                     <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-tight">
-                        Technical Skills
+                        Tech Stack
                     </h2>
                 </motion.div>
 

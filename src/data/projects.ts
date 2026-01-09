@@ -1,20 +1,20 @@
 
 export const projects = [
     {
-        title: 'E-Commerce Platform',
-        description: 'Full-stack online store with payment integration, inventory management, and admin dashboard built with modern technologies.',
-        tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-        image: 'https://images.unsplash.com/photo-1661956602116-aa6865609028?w=1200&q=80',
-        github: 'https://github.com/yourusername/ecommerce-platform',
-        demo: 'https://demo-ecommerce.vercel.app',
+        title: 'Online Beauty Store - Blessence',
+        description: 'Full-stack online store with payment integration, inventory management, and admin dashboard built with modern technologies. with picture scanner4 that will detect your skin to recommend products',
+        tags: ['Php', 'HTML/CSS', 'JS', 'MySQL', 'Bootstrap'],
+        image: 'public/Blessence.jpg',
+        github: 'https://github.com/danahparis21/smart-beauty-recommendation-system.git',
+        demo: 'http://blessence.site/',
     },
     {
-        title: 'Task Management App',
-        description: 'Collaborative project management tool with real-time updates, team workflows, and advanced analytics.',
-        tags: ['Next.js', 'TypeScript', 'Prisma', 'WebSocket'],
-        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
-        github: 'https://github.com/yourusername/task-manager',
-        demo: 'https://demo-taskmanager.vercel.app',
+        title: 'Gym Management System - Gym Kubo',
+        description: 'A gym management system that tracks members, classes, and payments.',
+        tags: ['Java, Mysql'],
+        image: 'public/Gym Kubo.png',
+        github: 'https://github.com/MendozaCPE/GymManagementSystem.git',
+        demo: '',
     },
     {
         title: 'Weather Dashboard',
