@@ -31,7 +31,7 @@ export const profile = {
         subtext: "Every element serves a purpose. Every line of code tells a story. Simplicity isn't about removing value—it's about revealing it."
     },
     location: {
-        label: "Based in United States",
+        label: "Based in Philippines",
         status: "Available for remote opportunities worldwide"
     },
     status: {
@@ -41,26 +41,20 @@ export const profile = {
     socials: [
         {
             label: 'GitHub',
-            href: '#',
+            href: 'https://github.com/MendozaCPE',
             username: '@christianpaulmendoza',
             icon: Github
         },
         {
             label: 'LinkedIn',
-            href: '#',
+            href: 'https://www.linkedin.com/in/christian-paul-mendoza-73335530a/',
             username: 'Christian Paul Mendoza',
             icon: Linkedin
         },
         {
-            label: 'Twitter',
-            href: '#',
-            username: '@cpmendoza_dev',
-            icon: Twitter
-        },
-        {
             label: 'Email',
-            href: 'mailto:contact@christianmendoza.dev',
-            username: 'contact@christianmendoza.dev',
+            href: 'mailto:contact@christianpaulmendoza10@gmail.com',
+            username: 'contact@christianpaulmendoza10@gmail.com',
             icon: Mail
         },
     ],
