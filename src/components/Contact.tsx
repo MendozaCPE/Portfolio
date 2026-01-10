@@ -1,5 +1,5 @@
-import { motion } from 'motion/react';
-import { Mail, Github, Linkedin, Twitter, MapPin, Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Mail, Github, Linkedin, Twitter, MapPin, Send, CheckCircle2, XCircle } from 'lucide-react';
 import { profile } from '../data/profile';
 import { mockBackend } from '../services/mockBackend';
 import { useState } from 'react';
@@ -8,23 +8,50 @@ export function Contact() {
   const socialLinks = profile.socials;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState<string>('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setFormStatus('idle');
+    setStatusMessage('');
+    
     try {
-      // Extract form data here if using controlled inputs or FormData
-      // For now we just call the mock backend
-      await mockBackend.sendMessage({
-        name: 'Test',
-        email: 'test@test.com',
-        subject: 'Test',
-        message: 'Test'
-      });
+      const result = await mockBackend.sendMessage(formData);
       setFormStatus('success');
-      setTimeout(() => setFormStatus('idle'), 3000);
-    } catch {
+      setStatusMessage(result.message || 'Message sent successfully!');
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setTimeout(() => {
+        setFormStatus('idle');
+        setStatusMessage('');
+      }, 5000);
+    } catch (error) {
       setFormStatus('error');
+      setStatusMessage(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
+      setTimeout(() => {
+        setFormStatus('idle');
+        setStatusMessage('');
+      }, 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -75,12 +102,42 @@ export function Contact() {
               <h3 className="text-2xl md:text-3xl mb-8">Send a Message</h3>
 
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Status Notification */}
+                <AnimatePresence>
+                  {formStatus !== 'idle' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className={`p-4 rounded-xl flex items-center gap-3 ${
+                        formStatus === 'success'
+                          ? 'bg-green-500/20 border border-green-500/50'
+                          : 'bg-red-500/20 border border-red-500/50'
+                      }`}
+                    >
+                      {formStatus === 'success' ? (
+                        <CheckCircle2 className="text-green-400 flex-shrink-0" size={20} />
+                      ) : (
+                        <XCircle className="text-red-400 flex-shrink-0" size={20} />
+                      )}
+                      <p className={`text-sm ${
+                        formStatus === 'success' ? 'text-green-300' : 'text-red-300'
+                      }`}>
+                        {statusMessage}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block mb-3 text-white/80">Your Name</label>
                     <input
                       type="text"
                       id="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
                       className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-white/30 focus:bg-white/10 outline-none transition-all backdrop-blur-sm"
                       placeholder="John Doe"
                     />
@@ -90,6 +147,9 @@ export function Contact() {
                     <input
                       type="email"
                       id="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
                       className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-white/30 focus:bg-white/10 outline-none transition-all backdrop-blur-sm"
                       placeholder="john@example.com"
                     />
@@ -101,6 +161,9 @@ export function Contact() {
                   <input
                     type="text"
                     id="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
                     className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-white/30 focus:bg-white/10 outline-none transition-all backdrop-blur-sm"
                     placeholder="Project Inquiry"
                   />
@@ -110,6 +173,9 @@ export function Contact() {
                   <label htmlFor="message" className="block mb-3 text-white/80">Message</label>
                   <textarea
                     id="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
                     rows={6}
                     className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-white/30 focus:bg-white/10 outline-none transition-all backdrop-blur-sm resize-none"
                     placeholder="Tell me about your project..."
