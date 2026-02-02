@@ -18,13 +18,16 @@ export function CustomCursor() {
       cursorY.set(e.clientY);
 
       const target = e.target as HTMLElement;
-      setIsPointer(
-        window.getComputedStyle(target).cursor === "pointer" ||
+      // Optimized check: Avoid getComputedStyle which causes reflows
+      const isInteractive =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
+        target.tagName === "INPUT" ||
         target.closest("a") !== null ||
-        target.closest("button") !== null
-      );
+        target.closest("button") !== null ||
+        target.closest(".cursor-pointer") !== null; // Check for explicit class if needed
+
+      setIsPointer(isInteractive);
     };
 
     const handleMouseEnter = () => setIsHidden(false);

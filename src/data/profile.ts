@@ -83,5 +83,83 @@ export const profile = {
             title: "Collaboration",
             description: "Team-oriented approach",
         },
+    ],
+    education: [
+        {
+            school: "Batangas State University",
+            degree: "Bachelor of Science in Information Technology",
+            year: "2021 - Present",
+            description: "Dean's Lister, Active member of student organizations."
+        }
+    ],
+    experience: [
+        {
+            company: "PESO Office",
+            role: "IT Intern",
+            period: "2024",
+            description: "Assisted in database management and system maintenance. Developed internal tools for data processing."
+        },
+        {
+            company: "PESO Office",
+            role: "Software Development Intern",
+            period: "2023",
+            description: "Collaborated on web application projects. Assisted in frontend development and UI design."
+        }
+    ],
+    certifications: [
+        {
+            name: "IT Specialist - Python",
+            issuer: "Certiport",
+            date: "2023"
+        },
+        {
+            name: "Cisco Certified Network Associate (CCNA)",
+            issuer: "Cisco",
+            date: "2024"
+        },
+        {
+            name: "Web Development Bootcamp",
+            issuer: "Udemy",
+            date: "2023"
+        },
+        {
+            name: "Cybersecurity Essentials",
+            issuer: "Cisco",
+            date: "2023"
+        },
+        {
+            name: "AWS Cloud Practitioner",
+            issuer: "Amazon Web Services",
+            date: "2024"
+        }
+    ],
+    academicProjects: [
+        {
+            name: "Student Management System",
+            description: "A comprehensive system for managing student records and grades.",
+            tech: ["Java", "MySQL"]
+        },
+        {
+            name: "E-Commerce Platform",
+            description: "Full-stack web application for online retail.",
+            tech: ["React", "Node.js", "MongoDB"]
+        },
+        {
+            name: "Library Kiosk",
+            description: "Self-service kiosk for book borrowing and returns.",
+            tech: ["Python", "Tkinter"]
+        }
+    ],
+    awards: [
+        {
+            title: "Dean's Lister",
+            year: "2021 - 2024",
+            description: "Consistently maintained high academic standing."
+        },
+        {
+            title: "Best Capstone Project",
+            year: "2024",
+            description: "Awarded for the most innovative final year project."
+        }
     ]
 };
