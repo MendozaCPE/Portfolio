@@ -12,6 +12,13 @@ export const mockBackend = {
                 body: JSON.stringify(data),
             });
 
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await res.text();
+                console.error("Non-JSON response received:", text);
+                throw new Error("Server returned an invalid response. This often happens if the backend isn't configured correctly or is waking up. Please try again in 30 seconds.");
+            }
+
             const result = await res.json();
 
             if (!res.ok || !result.success) {

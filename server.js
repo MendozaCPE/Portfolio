@@ -9,22 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the "build" directory
-app.use(express.static("build"));
-
-
-// Helper function to escape HTML
-function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return String(text).replace(/[&<>"']/g, m => map[m]);
-}
-
+// Move API routes BEFORE static files to ensure they are handled first
 app.post("/api/contact", async (req, res) => {
     const { name, email, subject, message } = req.body;
 
@@ -42,7 +27,7 @@ app.post("/api/contact", async (req, res) => {
     const pass = process.env.EMAIL_PASS;
     if (!user || !pass) {
         console.log("Email credentials not set, skipping actual email send.");
-        return res.json({ success: true, message: "Email sent (mock)" });
+        return res.json({ success: true, message: "Email sent (mock mode)" });
     }
 
     try {
@@ -73,6 +58,37 @@ app.post("/api/contact", async (req, res) => {
         res.status(500).json({ success: false, message: errorMessage });
     }
 });
+
+// Serve static files from the "build" directory
+app.use(express.static("build"));
+
+// Import path for catch-all route (SPA support)
+import path from "path";
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// All other GET requests not handled will return the index.html (SPA routing)
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
+
+
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+// Route was moved up for priority
+
 
 
 
