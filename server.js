@@ -2,6 +2,8 @@ import express from "express";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -62,9 +64,7 @@ app.post("/api/contact", async (req, res) => {
 // Serve static files from the "build" directory
 app.use(express.static("build"));
 
-// Import path for catch-all route (SPA support)
-import path from "path";
-import { fileURLToPath } from 'url';
+// Define path variables for catch-all route (SPA support)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
